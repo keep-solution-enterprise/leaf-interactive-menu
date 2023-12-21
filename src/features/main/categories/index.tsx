@@ -24,7 +24,7 @@ const Categories:React.FC<CategoriesProps> = ({categories,active,setActive}) => 
         <div className={classes.index}>
             {
                 categories
-                    .map(item => (
+                    ?.map(item => (
                         <CategoryItem key={item.id}
                                       category={item}
                                       isActive={item.id === active?.id}

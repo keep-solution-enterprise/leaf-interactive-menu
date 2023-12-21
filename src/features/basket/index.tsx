@@ -1,11 +1,13 @@
 import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
 import React from "react";
-import {ProductDTO} from "../../types/product/ProductDTO";
 import {createUseStyles} from "react-jss";
 import icArrowLeft from "../../assets/icons/arrow/ic_arrow_left.svg"
 import BasketItem from "./BasketItem";
 import {calculatePrice, humanizePrice} from "../../utils/Extensions";
 import SuccessButton from "../../components/SuccessButton";
+import {useNavigate} from "react-router";
+import {addToBasket, removeFromBasket, useGetBasketItems} from "../../store/api/AuthSlice";
+import {useDispatch} from "../../store/Store";
 
 const useStyle = createUseStyles({
     index: {
@@ -91,38 +93,50 @@ const useStyle = createUseStyles({
     },
 })
 
-type BasketProps = {
-    basketItems: BasketItemDTO[],
-    removeFromBasket: (item: BasketItemDTO) => void
-    addToBasket: (item: ProductDTO) => void,
-    togglePage: () => void
-}
-const Basket: React.FC<BasketProps> = ({basketItems, removeFromBasket, addToBasket, togglePage}) => {
+const Basket = () => {
 
     const classes = useStyle()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const basketItems = useGetBasketItems()
+
+
+    const navigateToMain = () => navigate("/")
+
+    const navigateToSuccess=()=> navigate("/success")
+
+    const addItemToBasket = (item: BasketItemDTO) => {
+        dispatch(addToBasket(item.product))
+    }
+    const removeItemFromBasket = (item: BasketItemDTO) => {
+        dispatch(removeFromBasket(item))
+    }
+
 
     return (
         <div className={classes.index}>
             <div className={classes.header}>
-                <img onClick={togglePage} className={classes.icon} src={icArrowLeft.toString()} alt=""/>
+                <img onClick={navigateToMain} className={classes.icon} src={icArrowLeft.toString()} alt=""/>
                 <p className={classes.headerText}>Корзина</p>
             </div>
             <div className={classes.body}>
                 {
-                    basketItems
+                    [...basketItems]
                         .sort((it1, it2) => it1.product.id - it2.product.id)
                         .map(item => <BasketItem
                             key={item.product.id}
                             item={item}
-                            removeFromBasket={() => removeFromBasket(item)}
-                            addToBasket={() => addToBasket(item.product)}
+                            removeFromBasket={() => removeItemFromBasket(item)}
+                            addToBasket={() => addItemToBasket(item)}
                         />)
                 }
             </div>
             {
                 basketItems.length > 0 && <div className={classes.footer}>
                     {
-                        basketItems.map(item => (
+                        [...basketItems]
+                            .sort((it1, it2) => it1.product.id - it2.product.id)
+                            .map(item => (
                             <div key={item.product.id} className={classes.totalListItem}>
                                 <p className={classes.totalListItemName}>{item.product.name}</p>
                                 <p className={classes.totalListItemPrice}>{humanizePrice(item.product.price * item.count)}сум</p>
@@ -133,7 +147,7 @@ const Basket: React.FC<BasketProps> = ({basketItems, removeFromBasket, addToBask
                         <p className={classes.totalListSumName}>Итого:</p>
                         <p className={classes.totalListSumPrice}>{calculatePrice(basketItems)}сум</p>
                     </div>
-                    <SuccessButton content={"Заказать"} onClick={() => ""}/>
+                    <SuccessButton content={"Заказать"} onClick={navigateToSuccess}/>
                 </div>
             }
         </div>

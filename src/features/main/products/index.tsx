@@ -4,6 +4,8 @@ import {createUseStyles} from "react-jss";
 import {ProductDTO} from "../../../types/product/ProductDTO";
 import {Row} from "reactstrap";
 import ProductItem from "./ProductItem";
+import {useGetProductsQuery} from "../../../store/api/ProductApi";
+import {userId} from "../../../utils/Extensions";
 
 
 const useStyle = createUseStyles({
@@ -35,82 +37,8 @@ const Products: React.FC<ProductsProps> = ({category, addToBasket}) => {
 
     const classes = useStyle()
 
-    const products: { data: ProductDTO[] } = {
-        data: [
-            {
-                id: 1,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 1125000
-            },
-            {
-                id: 2,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-            {
-                id: 3,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 25000
-            },
-            {
-                id: 4,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-            {
-                id: 9,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 1125000
-            },
-            {
-                id: 10,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-            {
-                id: 11,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 25000
-            },
-            {
-                id: 12,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-            {
-                id: 5,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 1125000
-            },
-            {
-                id: 6,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-            {
-                id: 7,
-                name: "Раф ванильный",
-                picture_url: "",
-                price: 25000
-            },
-            {
-                id: 8,
-                name: "Латте",
-                picture_url: "",
-                price: 15000
-            },
-        ]
-    }
+    const {data: products} =
+        useGetProductsQuery({user_id: userId, category_id: category?.id})
 
 
     if (!category)
@@ -120,14 +48,16 @@ const Products: React.FC<ProductsProps> = ({category, addToBasket}) => {
         <div className={classes.index}>
             <div className={classes.header}>
                 <p className={classes.headerName}>{category.name}</p>
-                <p className={classes.headerDescription}>{products.data?.length} видов</p>
+                <p className={classes.headerDescription}>{products?.data?.length} видов</p>
             </div>
             <Row>
                 {
-                    products.data?.map(item => <ProductItem
-                        key={item.id}
-                        onAdd={() => addToBasket(item)}
-                        product={item}/>)
+                    products
+                        ?.data
+                        ?.map(item => <ProductItem
+                            key={item.id}
+                            onAdd={() => addToBasket(item)}
+                            product={item}/>)
                 }
             </Row>
         </div>

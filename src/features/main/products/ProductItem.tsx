@@ -2,9 +2,8 @@ import {ProductDTO} from "../../../types/product/ProductDTO";
 import React from "react";
 import {Col} from "reactstrap";
 import {createUseStyles} from "react-jss";
-import icTemp from "../../../assets/icons/ic_temp.png"
 import icPlus from "../../../assets/icons/ic_plus.svg"
-import {humanizePrice} from "../../../utils/Extensions";
+import {humanizePrice, pictureUrl} from "../../../utils/Extensions";
 
 const useStyle = createUseStyles({
     index: {
@@ -58,13 +57,13 @@ const ProductItem: React.FC<ProductItemProps> = ({product,onAdd}) => {
 
     return (
         <Col xs={6} sm={6} md={6} lg={6}>
-            <div className={classes.index}>
-                <img className={classes.icon} src={icTemp.toString()} alt=""/>
+            <div className={classes.index} onClick={onAdd}>
+                <img className={classes.icon} src={pictureUrl(product.picture_url)} alt=""/>
                 <div className={classes.body}>
                     <p className={classes.productName}>{product.name}</p>
                     <div className={classes.productPriceWrapper}>
                         <p className={classes.productPrice}>{humanizePrice(product.price)}сум</p>
-                        <button className={classes.plusButton} onClick={onAdd}><img src={icPlus.toString()} alt=""/></button>
+                        <button className={classes.plusButton}><img src={icPlus.toString()} alt=""/></button>
                     </div>
                 </div>
             </div>

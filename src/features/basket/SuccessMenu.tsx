@@ -2,7 +2,10 @@ import {createUseStyles} from "react-jss";
 import React from "react";
 import icChecked from "../../assets/icons/ic_checked.svg"
 import SuccessButton from "../../components/SuccessButton";
-import {humanizePrice} from "../../utils/Extensions";
+import {calculatePrice, humanizePrice} from "../../utils/Extensions";
+import {clearBasket, useGetBasketItems} from "../../store/api/AuthSlice";
+import {useNavigate} from "react-router";
+import {useDispatch} from "../../store/Store";
 
 const useStyle = createUseStyles({
     index: {
@@ -41,10 +44,10 @@ const useStyle = createUseStyles({
     },
 
     footer: {
-        display:"flex",
-        justifyContent:"space-between",
-        alignItems:"center",
-        boxShadow:"0px -2.885px 33.654px 0px rgba(141, 141, 141, 0.25)",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        boxShadow: "0px -2.885px 33.654px 0px rgba(141, 141, 141, 0.25)",
         position: "absolute",
         bottom: 0,
         borderRadius: "25px 25px 0 0",
@@ -54,7 +57,7 @@ const useStyle = createUseStyles({
         maxHeight: "30vh",
         overflowY: "auto"
     },
-    footerPrice:{
+    footerPrice: {
         margin: 0,
         lineHeight: "normal",
         fontWeight: 700,
@@ -63,13 +66,19 @@ const useStyle = createUseStyles({
 })
 
 
-type SuccessMenuProps = {
-    price: number
-}
-
-const SuccessMenu: React.FC<SuccessMenuProps> = ({price}) => {
+const SuccessMenu = () => {
 
     const classes = useStyle()
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const basketItems = useGetBasketItems()
+
+
+    const goMain = () => {
+        dispatch(clearBasket())
+        navigate("/")
+    }
+
 
     return (
         <div className={classes.index}>
@@ -81,8 +90,8 @@ const SuccessMenu: React.FC<SuccessMenuProps> = ({price}) => {
             </div>
 
             <div className={classes.footer}>
-                <p className={classes.footerPrice}>{humanizePrice(price)} сум</p>
-                <SuccessButton content={"В меню"} onClick={() => ""} width={"50%"}/>
+                <p className={classes.footerPrice}>{calculatePrice(basketItems)} сум</p>
+                <SuccessButton content={"В меню"} onClick={goMain} width={"50%"}/>
             </div>
         </div>
     )

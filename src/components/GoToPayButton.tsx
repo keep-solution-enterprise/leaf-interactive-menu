@@ -2,6 +2,7 @@ import React from "react";
 import {createUseStyles} from "react-jss";
 import {BasketItemDTO} from "../types/basket/BasketItemDTO";
 import {calculatePrice} from "../utils/Extensions";
+import {useNavigate} from "react-router";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
     index: {
@@ -18,17 +19,18 @@ const useStyle = createUseStyles<string, { visible: boolean }>({
 
 type GoToPayButtonProps = {
     basketItems: BasketItemDTO[],
-    togglePage: ()=>void
 }
-const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems,togglePage}) => {
+const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems}) => {
+    const navigate=useNavigate()
     const classes = useStyle({visible: basketItems.length > 0})
-
 
     if (basketItems.length === 0)
         return <></>
 
+    const navigateToBasket=()=>navigate("/basket")
+
     return (
-        <button className={classes.index} onClick={togglePage}>К оплате: {calculatePrice(basketItems)}сум</button>
+        <button className={classes.index} onClick={navigateToBasket}>К оплате: {calculatePrice(basketItems)}сум</button>
     )
 }
 

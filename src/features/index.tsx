@@ -1,48 +1,52 @@
-import {useState} from "react";
-import {BasketItemDTO} from "../types/basket/BasketItemDTO";
+import Header from "../layouts/header";
+import Categories from "./main/categories";
+import Products from "./main/products";
+import GoToPayButton from "../components/GoToPayButton";
+import {createUseStyles} from "react-jss";
+import React, {useState} from "react";
 import {ProductDTO} from "../types/product/ProductDTO";
-import Main from "./main";
-import Basket from "./basket";
+import {addToBasket, useGetBasketItems} from "../store/api/AuthSlice";
+import {useDispatch} from "../store/Store";
+import {useGetCategoriesQuery} from "../store/api/CategoryApi";
+import {userId} from "../utils/Extensions";
 
-const Index = () => {
 
-    const [basketItems, setBasketItems] = useState<BasketItemDTO[]>([])
-    const [showMain, setMain] = useState(true)
-
-    const addToBasket = (product: ProductDTO) => {
-        setBasketItems(p => {
-            const crtIndex = p.findIndex(item => item.product.id === product.id)
-            if (crtIndex === -1) {
-                p.push({product, count: 1})
-                return [...p]
-            }
-            p[crtIndex].count++
-            return [...p]
-        })
+const useStyle = createUseStyles({
+    index: {
+        position: "relative",
+        display: "flex",
+        flexDirection: "column",
+        padding: "15px",
+        rowGap: "15px",
     }
+})
 
-    const removeFromBasket = (basketItem: BasketItemDTO) => {
-        setBasketItems(p => {
-            basketItem.count--
-            const newVersion = p.filter(item => item.product.id !== basketItem.product.id)
-            if (basketItem.count > 0) {
-                return [...newVersion, basketItem]
-            }
-            return [...newVersion]
-        })
+const Main = () => {
+
+    const classes = useStyle()
+    const dispatch=useDispatch()
+    const basketItems = useGetBasketItems()
+    const {data:categories}=
+        useGetCategoriesQuery(userId)
+
+
+    const [activeCategory, setActiveCategory] = useState(categories?.data?.at(0))
+    const [activeProduct, setActiveProduct] = useState<ProductDTO | undefined>(basketItems.length > 0
+        ? basketItems.at(basketItems.length - 1)?.product : undefined)
+
+    const addToBasketWithAction = (product: ProductDTO) => {
+        setActiveProduct(product)
+        dispatch(addToBasket(product))
     }
-
-    const togglePage = () => setMain(p => !p)
-
-
-    // return <SuccessMenu price={145000}/>
 
     return (
-        showMain
-            ? <Main togglePage={togglePage} basketItems={basketItems} addToBasket={addToBasket}/>
-            : <Basket basketItems={basketItems} removeFromBasket={removeFromBasket} addToBasket={addToBasket} togglePage={togglePage}/>
+        <div className={classes.index}>
+            <Header product={activeProduct}/>
+            <Categories categories={categories?.data!!} active={activeCategory} setActive={setActiveCategory}/>
+            <Products category={activeCategory} addToBasket={addToBasketWithAction}/>
+            <GoToPayButton basketItems={basketItems}/>
+        </div>
     )
-
 }
 
-export default Index
+export default Main

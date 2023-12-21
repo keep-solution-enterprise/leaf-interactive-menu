@@ -1,12 +1,13 @@
 import {CategoryDTO} from "../../../types/category/CategoryDTO";
 import React from "react";
 import {createUseStyles} from "react-jss";
-import icTemp from "../../../assets/icons/ic_temp.png"
+import {pictureUrl} from "../../../utils/Extensions";
 
 const useStyle = createUseStyles<string,{isActive:boolean}>({
     index: ({isActive})=>({
         display: "flex",
         alignItems: "center",
+        columnGap:"5px",
         padding: "14px 19px",
         backgroundColor: isActive ? "#229B80" : "#F0F1F1",
         color: isActive? "#fff" : "#000",
@@ -34,7 +35,7 @@ const CategoryItem: React.FC<CategoryItemProps> = ({category,isActive,onClick}) 
 
     return (
         <div className={classes.index} onClick={onClick}>
-            <img className={classes.icon} src={icTemp.toString()} alt=""/>
+            {category.picture_url && <img className={classes.icon} src={pictureUrl(category.picture_url)} alt=""/>}
             <p className={classes.name}>{category.name}</p>
         </div>
     )

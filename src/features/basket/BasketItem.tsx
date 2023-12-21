@@ -1,8 +1,7 @@
 import React from "react";
 import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
 import {createUseStyles} from "react-jss";
-import icTemp from "../../assets/icons/ic_temp.png"
-import {humanizePrice} from "../../utils/Extensions";
+import {humanizePrice, pictureUrl} from "../../utils/Extensions";
 import Counter from "../../components/Counter";
 
 
@@ -56,7 +55,7 @@ const BasketItem:React.FC<BasketItemProps>=({item:{product,count},removeFromBask
 
     return (
         <div className={classes.index}>
-            <img className={classes.icon} src={icTemp.toString()} alt=""/>
+            <img className={classes.icon} src={pictureUrl(product.picture_url)} alt=""/>
             <div className={classes.content}>
                 <p className={classes.contentName}>{product.name}</p>
                 <div className={classes.contentAmount}>
