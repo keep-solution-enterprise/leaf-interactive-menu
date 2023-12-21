@@ -22,9 +22,9 @@ const useStyle = createUseStyles({
 type MainProps = {
     basketItems: BasketItemDTO[],
     addToBasket: (product: ProductDTO) => void,
-    togglePage: ()=>void
+    togglePage: () => void
 }
-const Main: React.FC<MainProps> = ({basketItems, addToBasket,togglePage}) => {
+const Main: React.FC<MainProps> = ({basketItems, addToBasket, togglePage}) => {
 
     const classes = useStyle()
 
@@ -60,7 +60,8 @@ const Main: React.FC<MainProps> = ({basketItems, addToBasket,togglePage}) => {
 
 
     const [activeCategory, setActiveCategory] = useState(categories.data?.at(0))
-    const [activeProduct, setActiveProduct] = useState<ProductDTO>()
+    const [activeProduct, setActiveProduct] = useState<ProductDTO | undefined>(basketItems.length > 0
+        ? basketItems.at(basketItems.length - 1)?.product : undefined)
 
     const addToBasketWithAction = (product: ProductDTO) => {
         setActiveProduct(product)

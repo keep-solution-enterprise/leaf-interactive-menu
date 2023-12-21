@@ -1,7 +1,7 @@
 import {CategoryDTO} from "../../../types/category/CategoryDTO";
 import React from "react";
 import {createUseStyles} from "react-jss";
-import icTemp from "../../../assets/icons/ic_temp.svg"
+import icTemp from "../../../assets/icons/ic_temp.png"
 
 const useStyle = createUseStyles<string,{isActive:boolean}>({
     index: ({isActive})=>({

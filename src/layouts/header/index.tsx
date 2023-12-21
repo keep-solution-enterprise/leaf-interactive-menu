@@ -2,7 +2,7 @@ import {createUseStyles} from "react-jss";
 import {HEADER_BOTTOM_TEXT, HEADER_TITLE_TEXT} from "../../utils/Text";
 import {ProductDTO} from "../../types/product/ProductDTO";
 import React from "react";
-import icTemp from "../../assets/icons/ic_temp.svg"
+import icTemp from "../../assets/icons/ic_temp.png"
 
 const useStyle = createUseStyles({
     notification: {

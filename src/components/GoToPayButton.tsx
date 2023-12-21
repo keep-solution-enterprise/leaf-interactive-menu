@@ -1,7 +1,7 @@
 import React from "react";
 import {createUseStyles} from "react-jss";
 import {BasketItemDTO} from "../types/basket/BasketItemDTO";
-import {humanizePrice} from "../utils/Extensions";
+import {calculatePrice} from "../utils/Extensions";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
     index: {
@@ -23,15 +23,12 @@ type GoToPayButtonProps = {
 const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems,togglePage}) => {
     const classes = useStyle({visible: basketItems.length > 0})
 
-    const calculatePrice = (): string => humanizePrice(
-        basketItems.map(item => item.count * item.product.price).reduce((acc, val) => acc + val, 0)
-    )
 
     if (basketItems.length === 0)
         return <></>
 
     return (
-        <button className={classes.index} onClick={togglePage}>К оплате: {calculatePrice()}сум</button>
+        <button className={classes.index} onClick={togglePage}>К оплате: {calculatePrice(basketItems)}сум</button>
     )
 }
 

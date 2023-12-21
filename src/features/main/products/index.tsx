@@ -61,6 +61,54 @@ const Products: React.FC<ProductsProps> = ({category, addToBasket}) => {
                 picture_url: "",
                 price: 15000
             },
+            {
+                id: 9,
+                name: "Раф ванильный",
+                picture_url: "",
+                price: 1125000
+            },
+            {
+                id: 10,
+                name: "Латте",
+                picture_url: "",
+                price: 15000
+            },
+            {
+                id: 11,
+                name: "Раф ванильный",
+                picture_url: "",
+                price: 25000
+            },
+            {
+                id: 12,
+                name: "Латте",
+                picture_url: "",
+                price: 15000
+            },
+            {
+                id: 5,
+                name: "Раф ванильный",
+                picture_url: "",
+                price: 1125000
+            },
+            {
+                id: 6,
+                name: "Латте",
+                picture_url: "",
+                price: 15000
+            },
+            {
+                id: 7,
+                name: "Раф ванильный",
+                picture_url: "",
+                price: 25000
+            },
+            {
+                id: 8,
+                name: "Латте",
+                picture_url: "",
+                price: 15000
+            },
         ]
     }
 

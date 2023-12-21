@@ -35,10 +35,12 @@ const Index = () => {
     const togglePage = () => setMain(p => !p)
 
 
+    // return <SuccessMenu price={145000}/>
+
     return (
         showMain
             ? <Main togglePage={togglePage} basketItems={basketItems} addToBasket={addToBasket}/>
-            : <Basket basketItems={basketItems} removeFromBasket={removeFromBasket} addToBasket={addToBasket}/>
+            : <Basket basketItems={basketItems} removeFromBasket={removeFromBasket} addToBasket={addToBasket} togglePage={togglePage}/>
     )
 
 }

@@ -2,7 +2,7 @@ import {ProductDTO} from "../../../types/product/ProductDTO";
 import React from "react";
 import {Col} from "reactstrap";
 import {createUseStyles} from "react-jss";
-import icTemp from "../../../assets/icons/ic_temp.svg"
+import icTemp from "../../../assets/icons/ic_temp.png"
 import icPlus from "../../../assets/icons/ic_plus.svg"
 import {humanizePrice} from "../../../utils/Extensions";
 
