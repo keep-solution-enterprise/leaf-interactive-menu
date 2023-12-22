@@ -102,7 +102,7 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
     const classes = useStyle()
     const navigate = useNavigate()
     const [branchId, setBranchId] = useState<number>(-1)
-    const {data: branches, isFetching} = useGetBranchesQuery(userId, {skip: !userId})
+    const {data: branches} = useGetBranchesQuery(userId, {skip: !userId})
     const [createOrder, {isLoading, isError, isSuccess}] = useCreateOrderMutation()
     const basketItems = useGetBasketItems()
 
