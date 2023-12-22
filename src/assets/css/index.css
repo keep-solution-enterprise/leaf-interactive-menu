@@ -24,3 +24,8 @@ code {
     background: transparent;
     box-shadow: none;
 }
+
+
+.modal-content{
+    border-radius: 20px!important;
+}

@@ -1,4 +1,4 @@
-import icLoader from "../../assets/icons/ic_loader.svg"
+import icLoader from "../../assets/icons/loader/ic_loader.svg"
 import {createUseStyles} from "react-jss";
 
 const useStyle=createUseStyles({

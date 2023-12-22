@@ -1,5 +1,5 @@
 import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
-import React from "react";
+import React, {useState} from "react";
 import {createUseStyles} from "react-jss";
 import icArrowLeft from "../../assets/icons/arrow/ic_arrow_left.svg"
 import BasketItem from "./BasketItem";
@@ -8,6 +8,9 @@ import SuccessButton from "../../components/buttons/SuccessButton";
 import {useNavigate} from "react-router";
 import {addToBasket, removeFromBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useDispatch} from "../../store/Store";
+const BranchModal = React.lazy(()=>import("../../components/modals/BranchModal"));
+
+
 
 const useStyle = createUseStyles({
     index: {
@@ -99,11 +102,12 @@ const Basket = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const basketItems = useGetBasketItems()
+    const [branchModalOpen,setBranchModalOpen]=useState(false)
 
 
     const navigateToMain = () => navigate("/")
 
-    const navigateToSuccess=()=> navigate("/success")
+    const toggleBranchModal=()=> setBranchModalOpen(p=>!p)
 
     const addItemToBasket = (item: BasketItemDTO) => {
         dispatch(addToBasket(item.product))
@@ -147,9 +151,10 @@ const Basket = () => {
                         <p className={classes.totalListSumName}>Итого:</p>
                         <p className={classes.totalListSumPrice}>{calculatePrice(basketItems)}сум</p>
                     </div>
-                    <SuccessButton content={"Заказать"} onClick={navigateToSuccess}/>
+                    <SuccessButton content={"Выбрать филиал"} onClick={toggleBranchModal}/>
                 </div>
             }
+            <BranchModal open={branchModalOpen} toggle={toggleBranchModal}/>
         </div>
     )
 }
