@@ -1,8 +1,8 @@
 import {createUseStyles} from "react-jss";
 import React from "react";
 import icChecked from "../../assets/icons/ic_checked.svg"
-import SuccessButton from "../../components/SuccessButton";
-import {calculatePrice, humanizePrice} from "../../utils/Extensions";
+import SuccessButton from "../../components/buttons/SuccessButton";
+import {calculatePrice} from "../../utils/Extensions";
 import {clearBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useNavigate} from "react-router";
 import {useDispatch} from "../../store/Store";
@@ -74,7 +74,9 @@ const SuccessMenu = () => {
     const basketItems = useGetBasketItems()
 
 
-    const goMain = () => {
+    const makeOrder = () => {
+
+
         dispatch(clearBasket())
         navigate("/")
     }
@@ -91,7 +93,7 @@ const SuccessMenu = () => {
 
             <div className={classes.footer}>
                 <p className={classes.footerPrice}>{calculatePrice(basketItems)} сум</p>
-                <SuccessButton content={"В меню"} onClick={goMain} width={"50%"}/>
+                <SuccessButton content={"В меню"} onClick={makeOrder} width={"50%"}/>
             </div>
         </div>
     )

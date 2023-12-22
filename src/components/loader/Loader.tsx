@@ -3,11 +3,13 @@ import {createUseStyles} from "react-jss";
 
 const useStyle=createUseStyles({
     index:{
+        position:"absolute",
+        inset:0,
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
         height:"100vh",
-        background:"transparent"
+        background:"#00000030"
     },
     icon:{
         width:"30vw",

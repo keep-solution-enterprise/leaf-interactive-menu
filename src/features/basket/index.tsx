@@ -4,7 +4,7 @@ import {createUseStyles} from "react-jss";
 import icArrowLeft from "../../assets/icons/arrow/ic_arrow_left.svg"
 import BasketItem from "./BasketItem";
 import {calculatePrice, humanizePrice} from "../../utils/Extensions";
-import SuccessButton from "../../components/SuccessButton";
+import SuccessButton from "../../components/buttons/SuccessButton";
 import {useNavigate} from "react-router";
 import {addToBasket, removeFromBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useDispatch} from "../../store/Store";

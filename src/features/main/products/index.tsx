@@ -6,6 +6,12 @@ import {Row} from "reactstrap";
 import ProductItem from "./ProductItem";
 import {useGetProductsQuery} from "../../../store/api/ProductApi";
 import {userId} from "../../../utils/Extensions";
+import Loader from "../../../components/loader/Loader";
+import {useDispatch} from "../../../store/Store";
+import {addToBasket} from "../../../store/api/AuthSlice";
+import {toast} from "react-toastify";
+import NotificationContent from "../../../components/notification/NotificationContent";
+import {toastOptions} from "../../../utils/Constants";
 
 
 const useStyle = createUseStyles({
@@ -30,19 +36,24 @@ const useStyle = createUseStyles({
 })
 
 type ProductsProps = {
-    category: CategoryDTO | undefined,
-    addToBasket: (product: ProductDTO) => void
+    category: CategoryDTO | undefined
 }
-const Products: React.FC<ProductsProps> = ({category, addToBasket}) => {
+const Products: React.FC<ProductsProps> = ({category}) => {
 
     const classes = useStyle()
+    const dispatch = useDispatch()
 
-    const {data: products} =
+    const {data: products, isFetching} =
         useGetProductsQuery({user_id: userId, category_id: category?.id})
 
 
     if (!category)
         return <></>
+
+    const onAdd = (product: ProductDTO) => {
+        toast(<NotificationContent product={product}/>, toastOptions)
+        dispatch(addToBasket(product))
+    }
 
     return (
         <div className={classes.index}>
@@ -56,10 +67,11 @@ const Products: React.FC<ProductsProps> = ({category, addToBasket}) => {
                         ?.data
                         ?.map(item => <ProductItem
                             key={item.id}
-                            onAdd={() => addToBasket(item)}
+                            onAdd={() => onAdd(item)}
                             product={item}/>)
                 }
             </Row>
+            {isFetching && <Loader/>}
         </div>
     )
 }

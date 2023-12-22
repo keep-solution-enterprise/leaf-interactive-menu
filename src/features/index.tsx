@@ -1,7 +1,7 @@
-import Header from "../layouts/header";
+import Header from "./main/header";
 import Categories from "./main/categories";
 import Products from "./main/products";
-import GoToPayButton from "../components/GoToPayButton";
+import GoToPayButton from "../components/buttons/GoToPayButton";
 import {createUseStyles} from "react-jss";
 import React, {useState} from "react";
 import {ProductDTO} from "../types/product/ProductDTO";
@@ -24,26 +24,19 @@ const useStyle = createUseStyles({
 const Main = () => {
 
     const classes = useStyle()
-    const dispatch=useDispatch()
     const basketItems = useGetBasketItems()
     const {data:categories}=
         useGetCategoriesQuery(userId)
 
 
     const [activeCategory, setActiveCategory] = useState(categories?.data?.at(0))
-    const [activeProduct, setActiveProduct] = useState<ProductDTO | undefined>(basketItems.length > 0
-        ? basketItems.at(basketItems.length - 1)?.product : undefined)
 
-    const addToBasketWithAction = (product: ProductDTO) => {
-        setActiveProduct(product)
-        dispatch(addToBasket(product))
-    }
 
     return (
         <div className={classes.index}>
-            <Header product={activeProduct}/>
+            <Header/>
             <Categories categories={categories?.data!!} active={activeCategory} setActive={setActiveCategory}/>
-            <Products category={activeCategory} addToBasket={addToBasketWithAction}/>
+            <Products category={activeCategory}/>
             <GoToPayButton basketItems={basketItems}/>
         </div>
     )

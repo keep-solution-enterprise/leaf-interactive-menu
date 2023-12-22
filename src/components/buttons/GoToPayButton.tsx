@@ -1,7 +1,7 @@
 import React from "react";
 import {createUseStyles} from "react-jss";
-import {BasketItemDTO} from "../types/basket/BasketItemDTO";
-import {calculatePrice} from "../utils/Extensions";
+import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
+import {calculatePrice} from "../../utils/Extensions";
 import {useNavigate} from "react-router";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
