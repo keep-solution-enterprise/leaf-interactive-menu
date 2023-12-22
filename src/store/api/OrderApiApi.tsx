@@ -1,20 +1,22 @@
 import {apiQuery} from "../utils/Extensions";
 import {createApi} from "@reduxjs/toolkit/dist/query/react";
-import {ProductRequestDTO} from "../../types/product/ProductDTO";
+import {OrderCreateRequestDTO} from "../../types/order/OrderDTO";
 
 
 export const orderApi = createApi({
     reducerPath: "order",
     baseQuery: apiQuery,
     endpoints: builder => ({
-        createOrder: builder.mutation<void, Partial<ProductRequestDTO>>({
+        createOrder: builder.mutation<void, Partial<OrderCreateRequestDTO>>({
             query: data => ({
                 url: "/orders",
+                method: "POST",
+                body: data
             })
         })
     })
 })
 
 export const {
-    // useGetProductsQuery
+    useCreateOrderMutation
 } = orderApi

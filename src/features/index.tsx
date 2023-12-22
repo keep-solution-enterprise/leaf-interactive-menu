@@ -4,9 +4,7 @@ import Products from "./main/products";
 import GoToPayButton from "../components/buttons/GoToPayButton";
 import {createUseStyles} from "react-jss";
 import React, {useState} from "react";
-import {ProductDTO} from "../types/product/ProductDTO";
-import {addToBasket, useGetBasketItems} from "../store/api/AuthSlice";
-import {useDispatch} from "../store/Store";
+import {useGetBasketItems} from "../store/api/AuthSlice";
 import {useGetCategoriesQuery} from "../store/api/CategoryApi";
 import {userId} from "../utils/Extensions";
 
