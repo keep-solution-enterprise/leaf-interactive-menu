@@ -8,7 +8,7 @@ export const branchApi = createApi({
     reducerPath: "branch",
     baseQuery: apiQuery,
     endpoints: builder => ({
-        getBranches: builder.query<Response<BranchDTO[]>, Partial<number>>({
+        getBranches: builder.query<Response<BranchDTO[]>, Partial<number|undefined>>({
             query: (user_id) => `/users/${user_id}/branches`
         })
     })
