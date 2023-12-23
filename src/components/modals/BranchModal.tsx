@@ -109,15 +109,11 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
 
     const onSelectClicked = () => {
         if (userId && branchId && basketItems.length > 0) {
-            // createOrder({
-            //     user_telegram_id: userId,
-            //     branch_id: branchId,
-            //     items: basketItems.map(({product, count}) => ({product_id: product.id, count}))
-            // })
-
-            // TODO(REMOVE LINE BELOW)
-            navigate("/success")
-
+            createOrder({
+                user_telegram_id: userId,
+                branch_id: branchId,
+                items: basketItems.map(({product, count}) => ({product_id: product.id, count}))
+            })
         }
     }
 
@@ -159,7 +155,7 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
                                 color={isError ? "danger" : "success"} outline
                                 className={classes.assignButton}>
                             {isLoading && <LoadingBlock showText={false} size={"4vh"}/>}
-                            Выбирать
+                            Заказать
                         </Button>
                         <Label hidden={!isError} className={classes.assignButtonLabel}>Произошла ошибка! Пожалуйста,
                             попробуйте позже</Label>
