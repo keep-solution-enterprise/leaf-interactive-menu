@@ -3,6 +3,8 @@ import {createUseStyles} from "react-jss";
 import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
 import {calculatePrice} from "../../utils/Extensions";
 import {useNavigate} from "react-router";
+import {useTranslation} from "react-i18next";
+import {GOT_PAYMENT_TEXT, SOM_TEXT} from "../../i18n/Constants";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
     index: {
@@ -21,16 +23,18 @@ type GoToPayButtonProps = {
     basketItems: BasketItemDTO[],
 }
 const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems}) => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     const classes = useStyle({visible: basketItems.length > 0})
+    const {t} = useTranslation()
 
     if (basketItems.length === 0)
         return <></>
 
-    const navigateToBasket=()=>navigate("/basket")
+    const navigateToBasket = () => navigate("/basket")
 
     return (
-        <button className={classes.index} onClick={navigateToBasket}>К оплате: {calculatePrice(basketItems)}сум</button>
+        <button className={classes.index}
+                onClick={navigateToBasket}>{t(GOT_PAYMENT_TEXT) + calculatePrice(basketItems) + t(SOM_TEXT)}</button>
     )
 }
 

@@ -9,6 +9,13 @@ import {useCreateOrderMutation} from "../../store/api/OrderApi";
 import LoadingBlock from "../loader/LoadingBlock";
 import {useGetBasketItems} from "../../store/api/AuthSlice";
 import {useNavigate} from "react-router";
+import {useTranslation} from "react-i18next";
+import {
+    CHOOSE_BRANCH_DESCRIPTION_TEXT,
+    CHOOSE_BRANCH_TITLE_TEXT,
+    ERROR_TEXT,
+    MAKE_ORDER_TEXT
+} from "../../i18n/Constants";
 
 const useStyle = createUseStyles({
     body: {
@@ -100,6 +107,7 @@ type BranchModalProps = {
 const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
 
     const classes = useStyle()
+    const {t} = useTranslation()
     const navigate = useNavigate()
     const [branchId, setBranchId] = useState<number>(-1)
     const {data: branches} = useGetBranchesQuery(userId, {skip: !userId})
@@ -127,18 +135,18 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
     return (
         <Modal isOpen={open} toggle={toggle} centered>
             <div className={classes.body}>
-                <p className={classes.title}>Выберите филиал</p>
+                <p className={classes.title}>{t(CHOOSE_BRANCH_TITLE_TEXT)}</p>
                 <Button className={classes.closeButton} color={"danger"} onClick={toggle}>
                     <img src={iconClose.toString()} alt="&times;"/>
                 </Button>
-                <p className={classes.description}>Выберите филиал для отправки заказа</p>
+                <p className={classes.description}>{t(CHOOSE_BRANCH_DESCRIPTION_TEXT)}</p>
                 <Input
                     type={"select"}
                     className={classes.select}
                     value={branchId}
                     onChange={(e) => setBranchId(parseInt(e.target.value))}>
                     <option className={classes.selectOption} value={-1}
-                            disabled={true}>Выберите филиал
+                            disabled={true}>{t(CHOOSE_BRANCH_TITLE_TEXT)}
                     </option>
                     {
                         branches
@@ -155,10 +163,9 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
                                 color={isError ? "danger" : "success"} outline
                                 className={classes.assignButton}>
                             {isLoading && <LoadingBlock showText={false} size={"4vh"}/>}
-                            Заказать
+                            {t(MAKE_ORDER_TEXT)}
                         </Button>
-                        <Label hidden={!isError} className={classes.assignButtonLabel}>Произошла ошибка! Пожалуйста,
-                            попробуйте позже</Label>
+                        <Label hidden={!isError} className={classes.assignButtonLabel}>{t(ERROR_TEXT)}</Label>
                     </FormGroup>
                 }
             </div>

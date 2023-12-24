@@ -5,6 +5,7 @@ import authSlice from "./api/AuthSlice";
 import {productApi} from "./api/ProductApi";
 import {orderApi} from "./api/OrderApi";
 import {branchApi} from "./api/BranchApi";
+import {userApi} from "./api/UserApi";
 
 // List reducers
 export const reducer = combineReducers({
@@ -12,7 +13,8 @@ export const reducer = combineReducers({
     [productApi.reducerPath]: productApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [branchApi.reducerPath]: branchApi.reducer,
-    auth:authSlice
+    [userApi.reducerPath]: userApi.reducer,
+    auth: authSlice
 })
 
 export type StoreState = ReturnType<typeof reducer>
@@ -29,4 +31,5 @@ export const store = configureStore({
             .concat(productApi.middleware)
             .concat(orderApi.middleware)
             .concat(branchApi.middleware)
+            .concat(userApi.middleware)
 })

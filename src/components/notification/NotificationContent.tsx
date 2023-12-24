@@ -3,7 +3,8 @@ import React from "react";
 import {createUseStyles} from "react-jss";
 import {pictureUrl} from "../../utils/Extensions";
 import icChecked from "../../assets/icons/ic_checked.svg"
-
+import {useTranslation} from "react-i18next";
+import {NOTIFICATION_DESCRIPTION_TEXT, NOTIFICATION_TITLE_TEXT} from "../../i18n/Constants";
 
 
 const useStyle = createUseStyles({
@@ -48,22 +49,22 @@ const useStyle = createUseStyles({
     }
 })
 
-type NotificationContentProps={
-    product:ProductDTO
+type NotificationContentProps = {
+    product: ProductDTO
 }
 
-const NotificationContent:React.FC<NotificationContentProps>=({product})=>{
+const NotificationContent: React.FC<NotificationContentProps> = ({product}) => {
 
 
     const classes = useStyle()
+    const {t} = useTranslation()
 
     return (
         <div className={classes.notification}>
             <img className={classes.icon} src={pictureUrl(product.picture_url)} alt=""/>
             <div className={classes.notificationContent}>
-                <p className={classes.notificationTitle}>Продукт добавлен в корзину</p>
-                <p className={classes.notificationDescription}>Вы можете продолжить покупки или перейти к
-                    оформлению заказа.</p>
+                <p className={classes.notificationTitle}>{t(NOTIFICATION_TITLE_TEXT)}</p>
+                <p className={classes.notificationDescription}>{t(NOTIFICATION_DESCRIPTION_TEXT)}</p>
             </div>
             <img className={classes.iconChecked} src={icChecked.toString()} alt=""/>
         </div>

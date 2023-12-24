@@ -7,6 +7,7 @@ import {store} from "./store/Store";
 import {BrowserRouter} from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 
+import "./i18n"
 import 'react-toastify/dist/ReactToastify.css';
 import './assets/css/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';

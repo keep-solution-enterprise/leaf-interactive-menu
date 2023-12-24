@@ -3,6 +3,8 @@ import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
 import {createUseStyles} from "react-jss";
 import {humanizePrice, pictureUrl} from "../../utils/Extensions";
 import Counter from "../../components/Counter";
+import {useTranslation} from "react-i18next";
+import {SOM_TEXT} from "../../i18n/Constants";
 
 
 const useStyle = createUseStyles({
@@ -52,6 +54,7 @@ const BasketItem:React.FC<BasketItemProps>=({item:{product,count},removeFromBask
 
 
     const classes = useStyle()
+    const {t}=useTranslation()
 
     return (
         <div className={classes.index}>
@@ -59,7 +62,7 @@ const BasketItem:React.FC<BasketItemProps>=({item:{product,count},removeFromBask
             <div className={classes.content}>
                 <p className={classes.contentName}>{product.name}</p>
                 <div className={classes.contentAmount}>
-                    <p className={classes.contentPrice}>{humanizePrice(product.price)} сум</p>
+                    <p className={classes.contentPrice}>{humanizePrice(product.price)+t(SOM_TEXT)}</p>
                     <Counter count={count} increase={addToBasket} decrease={removeFromBasket}/>
                 </div>
             </div>

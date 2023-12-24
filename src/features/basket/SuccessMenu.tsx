@@ -6,6 +6,8 @@ import {calculatePrice} from "../../utils/Extensions";
 import {clearBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useNavigate} from "react-router";
 import {useDispatch} from "../../store/Store";
+import {useTranslation} from "react-i18next";
+import {MENU_TEXT, SOM_TEXT, SUCCESS_MENU_DESCRIPTION_TEXT, SUCCESS_MENU_TITLE_TEXT} from "../../i18n/Constants";
 
 const useStyle = createUseStyles({
     index: {
@@ -69,6 +71,7 @@ const useStyle = createUseStyles({
 const SuccessMenu = () => {
 
     const classes = useStyle()
+    const {t}=useTranslation()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const basketItems = useGetBasketItems()
@@ -87,13 +90,13 @@ const SuccessMenu = () => {
 
             <div className={classes.body}>
                 <img src={icChecked.toString()} alt=""/>
-                <p className={classes.bodyTitle}>Заказ успешно создан</p>
-                <p className={classes.bodyDescription}>Ваш заказ успешно создан и будет готов в ближайшее время.</p>
+                <p className={classes.bodyTitle}>{t(SUCCESS_MENU_TITLE_TEXT)}</p>
+                <p className={classes.bodyDescription}>{t(SUCCESS_MENU_DESCRIPTION_TEXT)}</p>
             </div>
 
             <div className={classes.footer}>
-                <p className={classes.footerPrice}>{calculatePrice(basketItems)} сум</p>
-                <SuccessButton content={"В меню"} onClick={makeOrder} width={"50%"}/>
+                <p className={classes.footerPrice}>{calculatePrice(basketItems)+t(SOM_TEXT)}</p>
+                <SuccessButton content={t(MENU_TEXT)} onClick={makeOrder} width={"50%"}/>
             </div>
         </div>
     )

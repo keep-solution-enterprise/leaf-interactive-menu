@@ -41,7 +41,5 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-// Обновить токен
-export const {addToBasket, removeFromBasket,clearBasket} = authSlice.actions
-// Получить токен
+export const {addToBasket, removeFromBasket, clearBasket} = authSlice.actions
 export const useGetBasketItems = () => useSelector((state: StoreState) => state.auth.basketItems)

@@ -1,0 +1,24 @@
+{
+  "header_title": "Bu kofe orzulari ro'yobga chiqadigan joy. ✨❄\uFE0F",
+  "header_description": "O'zingiz uchun mazali nimadir tanlang.",
+  "notification_title": "Mahsulot savatga qo'shildi",
+  "notification_description": "Siz xaridni davom ettirishingiz yoki to'lovni qismiga o'tishingiz mumkin.",
+  "types": "\tturdagi",
+  "loyalty_text": "{0} tadan keyin tekin",
+  "next_free": "Keyingisi tekin",
+  "go_payment": "To'lash:\t",
+  "som": "\tso'm",
+  "basket": "Savat",
+  "summa": "Jami:\t",
+  "choose_branch": "Filialni tanlash",
+  "choose_branch_title": "Filialni tanlang",
+  "choose_branch_description": "Buyurtmani yuborish uchun filialni tanlang",
+  "make_order": "Buyurtma berish",
+
+  "success_menu_title": "Buyurtma muvaffaqiyatli yaratildi",
+  "success_menu_description": "Buyurtmangiz muvaffaqiyatli yaratildi va tez orada tayyor bo'ladi.",
+
+  "menu": "Menyu",
+
+  "error": "Xatolik ro'y berdi! Iltimos keyinroq qayta urinib ko'ring"
+}

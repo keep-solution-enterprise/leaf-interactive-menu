@@ -1,6 +1,7 @@
 import {createUseStyles} from "react-jss";
-import {HEADER_BOTTOM_TEXT, HEADER_TITLE_TEXT} from "../../../utils/Text";
+import {HEADER_DESCRIPTION_TEXT, HEADER_TITLE_TEXT} from "../../../i18n/Constants";
 import React from "react";
+import {useTranslation} from "react-i18next";
 
 const useStyle = createUseStyles({
     title: {
@@ -18,14 +19,15 @@ const useStyle = createUseStyles({
         margin: 0
     }
 })
-const Header= () => {
+const Header = () => {
 
     const classes = useStyle()
+    const {t} = useTranslation()
 
     return (
         <div>
-            <p className={classes.title}>{HEADER_TITLE_TEXT}</p>
-            <p className={classes.bottom}>{HEADER_BOTTOM_TEXT}</p>
+            <p className={classes.title}>{t(HEADER_TITLE_TEXT)}</p>
+            <p className={classes.bottom}>{t(HEADER_DESCRIPTION_TEXT)}</p>
         </div>
 
     )

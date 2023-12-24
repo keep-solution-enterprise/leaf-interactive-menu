@@ -10,10 +10,17 @@ export const humanizePrice = (price: number): string => {
 }
 
 
-export const calculatePrice = (basketItems:BasketItemDTO[]): string => humanizePrice(
+export const calculatePrice = (basketItems: BasketItemDTO[]): string => humanizePrice(
     basketItems.map(item => item.count * item.product.price).reduce((acc, val) => acc + val, 0)
 )
 
-export const pictureUrl=(fileName:string | undefined)=> fileName ? process.env.REACT_APP_API_BASE_URL+fileName : undefined
+export const pictureUrl = (fileName: string | undefined) => fileName ? process.env.REACT_APP_API_BASE_URL + fileName : undefined
 
-export const userId= WebApp.initDataUnsafe.user?.id
+export const formatString = (template: string, ...args: any[]) => {
+    return template.replace(/{([0-9]+)}/g, function (match, index) {
+        return typeof args[index] === 'undefined' ? match : args[index];
+    });
+}
+
+export const userId = WebApp.initDataUnsafe.user?.id ?? 280838813
+

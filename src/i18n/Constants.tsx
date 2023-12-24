@@ -1,0 +1,22 @@
+export const HEADER_TITLE_TEXT = "header_title"
+export const HEADER_DESCRIPTION_TEXT = "header_description"
+export const NOTIFICATION_TITLE_TEXT = "notification_title"
+export const NOTIFICATION_DESCRIPTION_TEXT = "notification_description"
+export const TYPES_TEXT = "types"
+export const GOT_PAYMENT_TEXT = "go_payment"
+export const SOM_TEXT = "som"
+
+export const BASKET_TITLE_TEXT="basket"
+export const SUMMA_TEXT="summa"
+export const CHOOSE_BRANCH_TEXT="choose_branch"
+export const CHOOSE_BRANCH_TITLE_TEXT="choose_branch_title"
+export const CHOOSE_BRANCH_DESCRIPTION_TEXT="choose_branch_description"
+export const MAKE_ORDER_TEXT="make_order"
+export const LOYALTY_TEXT="loyalty_text"
+export const NEXT_FREE_TEXT="next_free"
+
+export const SUCCESS_MENU_TITLE_TEXT="success_menu_title"
+export const SUCCESS_MENU_DESCRIPTION_TEXT="success_menu_description"
+
+export const MENU_TEXT="menu"
+export const ERROR_TEXT="error"

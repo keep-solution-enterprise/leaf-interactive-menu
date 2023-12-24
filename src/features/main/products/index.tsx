@@ -12,6 +12,9 @@ import {addToBasket} from "../../../store/api/AuthSlice";
 import {toast} from "react-toastify";
 import NotificationContent from "../../../components/notification/NotificationContent";
 import {toastOptions} from "../../../utils/Constants";
+import {TYPES_TEXT} from "../../../i18n/Constants";
+import {useTranslation} from "react-i18next";
+import {useGetUserInfoQuery} from "../../../store/api/UserApi";
 
 
 const useStyle = createUseStyles({
@@ -41,11 +44,13 @@ type ProductsProps = {
 const Products: React.FC<ProductsProps> = ({category}) => {
 
     const classes = useStyle()
+    const {t} = useTranslation()
     const dispatch = useDispatch()
 
     const {data: products, isFetching} =
         useGetProductsQuery({user_id: userId, category_id: category?.id})
 
+    const {data: userInfo} = useGetUserInfoQuery(userId)
 
     if (!category)
         return <></>
@@ -59,7 +64,7 @@ const Products: React.FC<ProductsProps> = ({category}) => {
         <div className={classes.index}>
             <div className={classes.header}>
                 <p className={classes.headerName}>{category.name}</p>
-                <p className={classes.headerDescription}>{products?.data?.length} видов</p>
+                <p className={classes.headerDescription}>{products?.data?.length + t(TYPES_TEXT)}</p>
             </div>
             <Row>
                 {
@@ -68,7 +73,9 @@ const Products: React.FC<ProductsProps> = ({category}) => {
                         ?.map(item => <ProductItem
                             key={item.id}
                             onAdd={() => onAdd(item)}
-                            product={item}/>)
+                            product={item}
+                            loyalty={userInfo?.data?.loyalties?.filter(it=>it.product_id===item.id)?.at(0)}
+                        />)
                 }
             </Row>
             {isFetching && <Loader/>}

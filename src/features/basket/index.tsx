@@ -8,8 +8,10 @@ import SuccessButton from "../../components/buttons/SuccessButton";
 import {useNavigate} from "react-router";
 import {addToBasket, removeFromBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useDispatch} from "../../store/Store";
-const BranchModal = React.lazy(()=>import("../../components/modals/BranchModal"));
+import {useTranslation} from "react-i18next";
+import {BASKET_TITLE_TEXT, CHOOSE_BRANCH_TEXT, SOM_TEXT, SUMMA_TEXT} from "../../i18n/Constants";
 
+const BranchModal = React.lazy(() => import("../../components/modals/BranchModal"));
 
 
 const useStyle = createUseStyles({
@@ -99,15 +101,17 @@ const useStyle = createUseStyles({
 const Basket = () => {
 
     const classes = useStyle()
+    const {t} = useTranslation()
+
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const basketItems = useGetBasketItems()
-    const [branchModalOpen,setBranchModalOpen]=useState(false)
+    const [branchModalOpen, setBranchModalOpen] = useState(false)
 
 
     const navigateToMain = () => navigate("/")
 
-    const toggleBranchModal=()=> setBranchModalOpen(p=>!p)
+    const toggleBranchModal = () => setBranchModalOpen(p => !p)
 
     const addItemToBasket = (item: BasketItemDTO) => {
         dispatch(addToBasket(item.product))
@@ -121,7 +125,7 @@ const Basket = () => {
         <div className={classes.index}>
             <div className={classes.header}>
                 <img onClick={navigateToMain} className={classes.icon} src={icArrowLeft.toString()} alt=""/>
-                <p className={classes.headerText}>Корзина</p>
+                <p className={classes.headerText}>{t(BASKET_TITLE_TEXT)}</p>
             </div>
             <div className={classes.body}>
                 {
@@ -141,17 +145,17 @@ const Basket = () => {
                         [...basketItems]
                             .sort((it1, it2) => it1.product.id - it2.product.id)
                             .map(item => (
-                            <div key={item.product.id} className={classes.totalListItem}>
-                                <p className={classes.totalListItemName}>{item.product.name}</p>
-                                <p className={classes.totalListItemPrice}>{humanizePrice(item.product.price * item.count)}сум</p>
-                            </div>
-                        ))
+                                <div key={item.product.id} className={classes.totalListItem}>
+                                    <p className={classes.totalListItemName}>{item.product.name}</p>
+                                    <p className={classes.totalListItemPrice}>{humanizePrice(item.product.price * item.count)+t(SOM_TEXT)}</p>
+                                </div>
+                            ))
                     }
                     <div className={classes.totalListSum}>
-                        <p className={classes.totalListSumName}>Итого:</p>
-                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems)}сум</p>
+                        <p className={classes.totalListSumName}>{t(SUMMA_TEXT)}</p>
+                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems)+t(SOM_TEXT)}</p>
                     </div>
-                    <SuccessButton content={"Выбрать филиал"} onClick={toggleBranchModal}/>
+                    <SuccessButton content={t(CHOOSE_BRANCH_TEXT)} onClick={toggleBranchModal}/>
                 </div>
             }
             <BranchModal open={branchModalOpen} toggle={toggleBranchModal}/>
