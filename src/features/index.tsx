@@ -22,7 +22,6 @@ const useStyle = createUseStyles({
 const Main = () => {
 
     const classes = useStyle()
-    const basketItems = useGetBasketItems()
     const {data:categories}=
         useGetCategoriesQuery(userId)
 
@@ -35,7 +34,7 @@ const Main = () => {
             <Header/>
             <Categories categories={categories?.data!!} active={activeCategory} setActive={setActiveCategory}/>
             <Products category={activeCategory}/>
-            <GoToPayButton basketItems={basketItems}/>
+            <GoToPayButton/>
         </div>
     )
 }

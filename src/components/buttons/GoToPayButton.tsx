@@ -1,10 +1,11 @@
 import React from "react";
 import {createUseStyles} from "react-jss";
-import {BasketItemDTO} from "../../types/basket/BasketItemDTO";
-import {calculatePrice} from "../../utils/Extensions";
+import {calculatePrice, userId} from "../../utils/Extensions";
 import {useNavigate} from "react-router";
 import {useTranslation} from "react-i18next";
 import {GOT_PAYMENT_TEXT, SOM_TEXT} from "../../i18n/Constants";
+import {useGetBasketItems} from "../../store/api/AuthSlice";
+import {useGetUserInfoQuery} from "../../store/api/UserApi";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
     index: {
@@ -19,13 +20,13 @@ const useStyle = createUseStyles<string, { visible: boolean }>({
 })
 
 
-type GoToPayButtonProps = {
-    basketItems: BasketItemDTO[],
-}
-const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems}) => {
+const GoToPayButton = () => {
     const navigate = useNavigate()
+    const basketItems = useGetBasketItems()
     const classes = useStyle({visible: basketItems.length > 0})
     const {t} = useTranslation()
+    const {data:userInfo} = useGetUserInfoQuery(userId)
+
 
     if (basketItems.length === 0)
         return <></>
@@ -34,7 +35,7 @@ const GoToPayButton: React.FC<GoToPayButtonProps> = ({basketItems}) => {
 
     return (
         <button className={classes.index}
-                onClick={navigateToBasket}>{t(GOT_PAYMENT_TEXT) + calculatePrice(basketItems) + t(SOM_TEXT)}</button>
+                onClick={navigateToBasket}>{t(GOT_PAYMENT_TEXT) + calculatePrice(basketItems,userInfo?.data?.loyalties) + t(SOM_TEXT)}</button>
     )
 }
 

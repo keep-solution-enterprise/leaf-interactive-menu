@@ -1,12 +1,13 @@
 import {ProductDTO} from "../../../types/product/ProductDTO";
-import React from "react";
+import React, {useState} from "react";
 import {Col} from "reactstrap";
 import {createUseStyles} from "react-jss";
 import icPlus from "../../../assets/icons/ic_plus.svg"
-import {formatString, humanizePrice, pictureUrl} from "../../../utils/Extensions";
+import {formatString, humanizePrice, isProductFree, pictureUrl} from "../../../utils/Extensions";
 import {useTranslation} from "react-i18next";
 import {LOYALTY_TEXT, NEXT_FREE_TEXT, SOM_TEXT} from "../../../i18n/Constants";
 import {ProductLoyaltyDTO} from "../../../types/user/UserInfoDTO";
+import {useGetBasketItems} from "../../../store/api/AuthSlice";
 
 const useStyle = createUseStyles({
     index: {
@@ -47,7 +48,7 @@ const useStyle = createUseStyles({
     plusButton: {
         border: 0,
         background: "transparent",
-        marginTop:"4px"
+        marginTop: "4px"
     },
     loyaltyText: {
         margin: 0,
@@ -65,16 +66,57 @@ const useStyle = createUseStyles({
 type ProductItemProps = {
     product: ProductDTO,
     onAdd: () => void,
-    loyalty: ProductLoyaltyDTO | undefined | null
+    loyalty: ProductLoyaltyDTO | undefined
 }
 const ProductItem: React.FC<ProductItemProps> = ({product, onAdd, loyalty}) => {
 
     const classes = useStyle()
     const {t} = useTranslation()
+    const basketItems=useGetBasketItems()
+    const [count, setCount] = useState<number>(
+        basketItems.find(it=> it.product.id===product.id)?.count ?? 0 - (isProductFree(product, loyalty) ? -1 : 0))
+
+    const onItemClicked = () => {
+        setCount(p => p + 1)
+        onAdd()
+    }
+
+    const getLoyaltyText = (): string => {
+        const loyaltyCount = product.loyalty_count
+        if (loyaltyCount) {
+            if (loyalty) {
+                if (count < loyalty.rest) {
+                    if (count < 0)
+                        return t(NEXT_FREE_TEXT)
+                    return formatString(t(LOYALTY_TEXT), loyalty.rest - count)
+                }
+                if (count === loyalty.rest) {
+                    return t(NEXT_FREE_TEXT)
+                }
+                if (count > loyalty.rest) {
+                    const upCount = count - loyalty.rest - 1
+                    if (upCount < loyaltyCount)
+                        return formatString(t(LOYALTY_TEXT), loyaltyCount - upCount)
+
+                    if (Math.ceil(upCount * loyaltyCount / (loyaltyCount + 1)) % loyaltyCount === 0 && upCount % (loyaltyCount + 1) !== 0)
+                        return t(NEXT_FREE_TEXT)
+
+                    if (upCount > loyaltyCount)
+                        return formatString(t(LOYALTY_TEXT), loyaltyCount - upCount % (loyaltyCount + 1))
+                }
+            } else {
+                if (Math.ceil(count * loyaltyCount / (loyaltyCount + 1)) % loyaltyCount === 0 && count % (loyaltyCount + 1) !== 0)
+                    return t(NEXT_FREE_TEXT)
+                return formatString(t(LOYALTY_TEXT), loyaltyCount - count % (loyaltyCount + 1))
+            }
+        }
+
+        return ""
+    }
 
     return (
         <Col xs={6} sm={6} md={6} lg={6}>
-            <div className={classes.index} onClick={onAdd}>
+            <div className={classes.index} onClick={onItemClicked}>
                 <img className={classes.icon} src={pictureUrl(product.picture_url)} alt=""/>
                 <div className={classes.body}>
                     <p className={classes.productName}>{product.name}</p>
@@ -82,10 +124,7 @@ const ProductItem: React.FC<ProductItemProps> = ({product, onAdd, loyalty}) => {
                         product.loyalty_count
                         && <p className={classes.loyaltyText}>
                             {
-                                ((loyalty && loyalty.rest === product.loyalty_count && !loyalty.free_given)
-                                    ? t(NEXT_FREE_TEXT)
-                                    : formatString(t(LOYALTY_TEXT), loyalty ? loyalty.rest : product.loyalty_count))
-
+                                getLoyaltyText()
                             }
                         </p>}
                     <div className={classes.productPriceWrapper}>

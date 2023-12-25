@@ -74,7 +74,7 @@ const Products: React.FC<ProductsProps> = ({category}) => {
                             key={item.id}
                             onAdd={() => onAdd(item)}
                             product={item}
-                            loyalty={userInfo?.data?.loyalties?.filter(it=>it.product_id===item.id)?.at(0)}
+                            loyalty={userInfo?.data?.loyalties?.find(it=>it.product_id===item.id)}
                         />)
                 }
             </Row>

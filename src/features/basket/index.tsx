@@ -3,13 +3,14 @@ import React, {useState} from "react";
 import {createUseStyles} from "react-jss";
 import icArrowLeft from "../../assets/icons/arrow/ic_arrow_left.svg"
 import BasketItem from "./BasketItem";
-import {calculatePrice, humanizePrice} from "../../utils/Extensions";
+import {calculatePrice, humanizePrice, userId} from "../../utils/Extensions";
 import SuccessButton from "../../components/buttons/SuccessButton";
 import {useNavigate} from "react-router";
 import {addToBasket, removeFromBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useDispatch} from "../../store/Store";
 import {useTranslation} from "react-i18next";
 import {BASKET_TITLE_TEXT, CHOOSE_BRANCH_TEXT, SOM_TEXT, SUMMA_TEXT} from "../../i18n/Constants";
+import {useGetUserInfoQuery} from "../../store/api/UserApi";
 
 const BranchModal = React.lazy(() => import("../../components/modals/BranchModal"));
 
@@ -107,6 +108,7 @@ const Basket = () => {
     const dispatch = useDispatch()
     const basketItems = useGetBasketItems()
     const [branchModalOpen, setBranchModalOpen] = useState(false)
+    const {data: userInfo} = useGetUserInfoQuery(userId)
 
 
     const navigateToMain = () => navigate("/")
@@ -147,13 +149,13 @@ const Basket = () => {
                             .map(item => (
                                 <div key={item.product.id} className={classes.totalListItem}>
                                     <p className={classes.totalListItemName}>{item.product.name}</p>
-                                    <p className={classes.totalListItemPrice}>{humanizePrice(item.product.price * item.count)+t(SOM_TEXT)}</p>
+                                    <p className={classes.totalListItemPrice}>{humanizePrice(item.product.price * item.count) + t(SOM_TEXT)}</p>
                                 </div>
                             ))
                     }
                     <div className={classes.totalListSum}>
                         <p className={classes.totalListSumName}>{t(SUMMA_TEXT)}</p>
-                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems)+t(SOM_TEXT)}</p>
+                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
                     </div>
                     <SuccessButton content={t(CHOOSE_BRANCH_TEXT)} onClick={toggleBranchModal}/>
                 </div>
