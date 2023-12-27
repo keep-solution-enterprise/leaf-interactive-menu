@@ -47,5 +47,5 @@ export const formatString = (template: string, ...args: any[]) => {
     });
 }
 
-export const userId = WebApp.initDataUnsafe.user?.id ?? 280838813
+export const userId = WebApp.initDataUnsafe.user?.id
 
