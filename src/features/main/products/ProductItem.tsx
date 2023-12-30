@@ -74,7 +74,7 @@ const ProductItem: React.FC<ProductItemProps> = ({product, onAdd, loyalty}) => {
     const {t} = useTranslation()
     const basketItems=useGetBasketItems()
     const [count, setCount] = useState<number>(
-        basketItems.find(it=> it.product.id===product.id)?.count ?? 0 - (isProductFree(product, loyalty) ? -1 : 0))
+        basketItems.find(it=> it.product.id===product.id)?.count ?? 0 - (isProductFree(product, loyalty) ? 1 : 0))
 
     const onItemClicked = () => {
         setCount(p => p + 1)
