@@ -122,11 +122,13 @@ const ProductItem: React.FC<ProductItemProps> = ({product, onAdd, loyalty}) => {
                     <p className={classes.productName}>{product.name}</p>
                     {
                         product.loyalty_count
-                        && <p className={classes.loyaltyText}>
+                        ? <p className={classes.loyaltyText}>
                             {
                                 getLoyaltyText()
                             }
-                        </p>}
+                        </p>
+                            : <p></p>
+                    }
                     <div className={classes.productPriceWrapper}>
                         <p className={classes.productPrice}>{humanizePrice(product.price) + t(SOM_TEXT)}</p>
                         <button className={classes.plusButton}><img src={icPlus.toString()} alt=""/></button>
