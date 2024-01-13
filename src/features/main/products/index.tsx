@@ -70,8 +70,6 @@ const Products: React.FC<ProductsProps> = ({category}) => {
                             key={item.id}
                             onAdd={() => onAdd(item)}
                             product={item}
-                            category={category}
-                            // loyalty={userInfo?.data?.loyalties?.find(it=>it.product_id===item.id)}
                         />)
                 }
             </Row>
