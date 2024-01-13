@@ -6,5 +6,6 @@ export interface OrderCreateRequestDTO{
 }
 export interface OrderCreateRequestItem{
     product_id: number,
+    category_id: number,
     count: number
 }

@@ -14,8 +14,6 @@ import NotificationContent from "../../../components/notification/NotificationCo
 import {toastOptions} from "../../../utils/Constants";
 import {TYPES_TEXT} from "../../../i18n/Constants";
 import {useTranslation} from "react-i18next";
-import {useGetUserInfoQuery} from "../../../store/api/UserApi";
-
 
 const useStyle = createUseStyles({
     index: {},
@@ -50,8 +48,6 @@ const Products: React.FC<ProductsProps> = ({category}) => {
     const {data: products, isFetching} =
         useGetProductsQuery({user_id: userId, category_id: category?.id})
 
-    const {data: userInfo} = useGetUserInfoQuery(userId)
-
     if (!category)
         return <></>
 
@@ -74,7 +70,8 @@ const Products: React.FC<ProductsProps> = ({category}) => {
                             key={item.id}
                             onAdd={() => onAdd(item)}
                             product={item}
-                            loyalty={userInfo?.data?.loyalties?.find(it=>it.product_id===item.id)}
+                            category={category}
+                            // loyalty={userInfo?.data?.loyalties?.find(it=>it.product_id===item.id)}
                         />)
                 }
             </Row>

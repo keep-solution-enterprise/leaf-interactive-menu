@@ -8,7 +8,7 @@ const useStyle = createUseStyles<string,{isActive:boolean}>({
         display: "flex",
         alignItems: "center",
         columnGap:"5px",
-        padding: "14px 19px",
+        padding: "8px 19px",
         backgroundColor: isActive ? "#229B80" : "#F0F1F1",
         color: isActive? "#fff" : "#000",
         borderRadius: "30px"

@@ -4,7 +4,6 @@ import Products from "./main/products";
 import GoToPayButton from "../components/buttons/GoToPayButton";
 import {createUseStyles} from "react-jss";
 import React, {useState} from "react";
-import {useGetBasketItems} from "../store/api/AuthSlice";
 import {useGetCategoriesQuery} from "../store/api/CategoryApi";
 import {userId} from "../utils/Extensions";
 
@@ -31,7 +30,7 @@ const Main = () => {
 
     return (
         <div className={classes.index}>
-            <Header/>
+            <Header categories={categories?.data} activeCategory={activeCategory}/>
             <Categories categories={categories?.data!!} active={activeCategory} setActive={setActiveCategory}/>
             <Products category={activeCategory}/>
             <GoToPayButton/>

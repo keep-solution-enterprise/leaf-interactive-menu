@@ -1,6 +1,8 @@
 {
-  "header_title": "Bu kofe orzulari ro'yobga chiqadigan joy. ✨❄\uFE0F",
-  "header_description": "O'zingiz uchun mazali nimadir tanlang.",
+  "header_title": "Ko'proq {0}, ko'proq quvonch!",
+  "header_title_free_product": "Ajoyib! Endi har qanday {0}ni sovg'a sifatida oling. Tanlovingizdan rohatlaning!",
+  "header_description": "{0} ta {1} sotib olsangiz, {2}-si bepul. Ta'mdan cheksiz bahramand bo'ling!",
+  "header_loyalty_counter": "{1} tadan {0} tasi sotib olindi",
   "notification_title": "Mahsulot savatga qo'shildi",
   "notification_description": "Siz xaridni davom ettirishingiz yoki to'lovni qismiga o'tishingiz mumkin.",
   "types": "\tturdagi",

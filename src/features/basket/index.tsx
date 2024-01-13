@@ -11,6 +11,7 @@ import {useDispatch} from "../../store/Store";
 import {useTranslation} from "react-i18next";
 import {BASKET_TITLE_TEXT, CHOOSE_BRANCH_TEXT, SOM_TEXT, SUMMA_TEXT} from "../../i18n/Constants";
 import {useGetUserInfoQuery} from "../../store/api/UserApi";
+import {useGetCategoriesQuery} from "../../store/api/CategoryApi";
 
 const BranchModal = React.lazy(() => import("../../components/modals/BranchModal"));
 
@@ -107,6 +108,7 @@ const Basket = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const basketItems = useGetBasketItems()
+    const {data: categories} = useGetCategoriesQuery(userId)
     const [branchModalOpen, setBranchModalOpen] = useState(false)
     const {data: userInfo} = useGetUserInfoQuery(userId)
 
@@ -155,7 +157,7 @@ const Basket = () => {
                     }
                     <div className={classes.totalListSum}>
                         <p className={classes.totalListSumName}>{t(SUMMA_TEXT)}</p>
-                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
+                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems,categories?.data, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
                     </div>
                     <SuccessButton content={t(CHOOSE_BRANCH_TEXT)} onClick={toggleBranchModal}/>
                 </div>

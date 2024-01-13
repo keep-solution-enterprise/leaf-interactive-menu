@@ -120,7 +120,11 @@ const BranchModal: React.FC<BranchModalProps> = ({open, toggle}) => {
             createOrder({
                 user_telegram_id: userId,
                 branch_id: branchId,
-                items: basketItems.map(({product, count}) => ({product_id: product.id, count}))
+                items: basketItems.map(({product, count}) => ({
+                    product_id: product.id,
+                    category_id: product.category_id,
+                    count
+                }))
             })
         }
     }

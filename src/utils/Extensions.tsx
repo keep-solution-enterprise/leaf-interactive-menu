@@ -1,7 +1,7 @@
 import {BasketItemDTO} from "../types/basket/BasketItemDTO";
 import WebApp from "@twa-dev/sdk";
-import {ProductDTO} from "../types/product/ProductDTO";
-import {ProductLoyaltyDTO} from "../types/user/UserInfoDTO";
+import {LoyaltyDTO} from "../types/user/UserInfoDTO";
+import {CategoryDTO} from "../types/category/CategoryDTO";
 
 export const humanizePrice = (price: number): string => {
     const priceTemp = price.toString()
@@ -13,31 +13,57 @@ export const humanizePrice = (price: number): string => {
 
 
 export const isProductFree = (
-    product: ProductDTO,
-    loyalty: ProductLoyaltyDTO | undefined
-) => loyalty && loyalty.rest === product.loyalty_count && !loyalty.free_given
+    category: CategoryDTO,
+    loyalty: LoyaltyDTO | undefined
+) => loyalty && loyalty.rest === category.loyalty_count && !loyalty.free_given
 
-export const calculatePrice = (basketItems: BasketItemDTO[], loyalties: ProductLoyaltyDTO[] | undefined): string => humanizePrice(
-    basketItems
-        .map(item => {
-            const loyaltyCount = item.product.loyalty_count
-            if (loyaltyCount) {
-                const loyalty = loyalties?.find(it => it.product_id === item.product.id)
-                if (loyalty) {
-                    let count = item.count
-                    count -= isProductFree(item.product, loyalty) ? 1 : 0
-                    if (count > loyalty.rest) {
-                        count -= 1 + ~~((count - loyalty.rest-1) / (loyaltyCount + 1))
+export const calculatePrice = (basketItems: BasketItemDTO[], categories: CategoryDTO[] | undefined, loyalties: LoyaltyDTO[] | undefined): string => {
+
+    const loyaltyCategories = categories?.filter(it => it.loyalty_count !== null && it.loyalty_count !== undefined)
+
+    const priceWithDiscount = loyaltyCategories
+        ?.map(category => {
+            const items = basketItems.filter(item => item.product.category_id === category.id)
+            const loyaltyCount = category.loyalty_count!!
+            const loyalty = loyalties?.find(it => it.category_id === category.id)
+
+            let freeCount = findFreeCount(category, items.map(it => it.count).reduce((acc, val) => acc + val, 0), loyalty, loyaltyCount)
+
+
+            let tempCount = 0
+            return items
+                .sort(it => it.product.price)
+                .map(item => {
+                    if (item.count >= freeCount) {
+                        tempCount = item.count - freeCount
+                        freeCount = 0
+                        return tempCount * item.product.price
                     }
-                    return count * item.product.price
-                } else {
-                    return Math.ceil(item.count * loyaltyCount / (loyaltyCount + 1)) * item.product.price
-                }
-            }
-            return item.count * item.product.price
+                    freeCount -= item.count
+                    return 0
+                })
+                .reduce((acc, val) => acc + val, 0)
         })
+        .reduce((acc, val) => acc + val, 0) ?? 0
+
+    const priceWithoutDiscount = basketItems
+        .filter(item => !loyaltyCategories?.map(it => it.id)?.includes(item.product.category_id))
+        .map(item => item.count * item.product.price)
         .reduce((acc, val) => acc + val, 0)
-)
+
+    return humanizePrice(priceWithDiscount + priceWithoutDiscount)
+}
+
+const findFreeCount = (category: CategoryDTO, fullCount: number, loyalty: LoyaltyDTO | undefined, loyaltyCount: number) => {
+    if (loyalty) {
+        let count = fullCount - (isProductFree(category, loyalty) ? 1 : 0)
+        if (count > loyalty.rest) {
+            count -= 1 + ~~((count - loyalty.rest - 1) / (loyaltyCount + 1))
+        }
+        return fullCount - count
+    }
+    return fullCount - Math.ceil(fullCount * loyaltyCount / (loyaltyCount + 1))
+}
 
 export const pictureUrl = (fileName: string | undefined) => fileName ? process.env.REACT_APP_API_BASE_URL + fileName : undefined
 
@@ -47,5 +73,5 @@ export const formatString = (template: string, ...args: any[]) => {
     });
 }
 
-export const userId = WebApp.initDataUnsafe.user?.id
+export const userId = WebApp.initDataUnsafe.user?.id ?? 280838813
 

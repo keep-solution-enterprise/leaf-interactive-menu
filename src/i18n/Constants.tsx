@@ -1,5 +1,8 @@
 export const HEADER_TITLE_TEXT = "header_title"
+export const HEADER_TITLE_FREE_PRODUCT_TEXT = "header_title_free_product"
 export const HEADER_DESCRIPTION_TEXT = "header_description"
+
+export const HEADER_LOYALTY_COUNTER_TEXT="header_loyalty_counter"
 export const NOTIFICATION_TITLE_TEXT = "notification_title"
 export const NOTIFICATION_DESCRIPTION_TEXT = "notification_description"
 export const TYPES_TEXT = "types"

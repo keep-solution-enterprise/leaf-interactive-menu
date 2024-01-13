@@ -2,12 +2,12 @@ import {createUseStyles} from "react-jss";
 import React from "react";
 import icChecked from "../../assets/icons/ic_checked.svg"
 import SuccessButton from "../../components/buttons/SuccessButton";
-import {calculatePrice, userId} from "../../utils/Extensions";
+import {userId} from "../../utils/Extensions";
 import {clearBasket, useGetBasketItems} from "../../store/api/AuthSlice";
 import {useNavigate} from "react-router";
 import {useDispatch} from "../../store/Store";
 import {useTranslation} from "react-i18next";
-import {MENU_TEXT, SOM_TEXT, SUCCESS_MENU_DESCRIPTION_TEXT, SUCCESS_MENU_TITLE_TEXT} from "../../i18n/Constants";
+import {MENU_TEXT, SUCCESS_MENU_DESCRIPTION_TEXT, SUCCESS_MENU_TITLE_TEXT} from "../../i18n/Constants";
 import {useGetUserInfoQuery} from "../../store/api/UserApi";
 
 const useStyle = createUseStyles({
@@ -97,7 +97,7 @@ const SuccessMenu = () => {
             </div>
 
             <div className={classes.footer}>
-                <p className={classes.footerPrice}>{calculatePrice(basketItems, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
+                {/*<p className={classes.footerPrice}>{calculatePrice(basketItems, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>*/}
                 <SuccessButton content={t(MENU_TEXT)} onClick={makeOrder} width={"50%"}/>
             </div>
         </div>

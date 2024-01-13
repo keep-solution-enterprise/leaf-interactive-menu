@@ -6,6 +6,7 @@ import {useTranslation} from "react-i18next";
 import {GOT_PAYMENT_TEXT, SOM_TEXT} from "../../i18n/Constants";
 import {useGetBasketItems} from "../../store/api/AuthSlice";
 import {useGetUserInfoQuery} from "../../store/api/UserApi";
+import {useGetCategoriesQuery} from "../../store/api/CategoryApi";
 
 const useStyle = createUseStyles<string, { visible: boolean }>({
     index: {
@@ -23,9 +24,10 @@ const useStyle = createUseStyles<string, { visible: boolean }>({
 const GoToPayButton = () => {
     const navigate = useNavigate()
     const basketItems = useGetBasketItems()
+    const {data: userInfo} = useGetUserInfoQuery(userId)
+    const {data: categories} = useGetCategoriesQuery(userId)
     const classes = useStyle({visible: basketItems.length > 0})
     const {t} = useTranslation()
-    const {data:userInfo} = useGetUserInfoQuery(userId)
 
 
     if (basketItems.length === 0)
@@ -35,7 +37,9 @@ const GoToPayButton = () => {
 
     return (
         <button className={classes.index}
-                onClick={navigateToBasket}>{t(GOT_PAYMENT_TEXT) + calculatePrice(basketItems,userInfo?.data?.loyalties) + t(SOM_TEXT)}</button>
+                onClick={navigateToBasket}>{t(GOT_PAYMENT_TEXT)
+            + calculatePrice(basketItems,categories?.data, userInfo?.data?.loyalties)
+            + t(SOM_TEXT)}</button>
     )
 }
 

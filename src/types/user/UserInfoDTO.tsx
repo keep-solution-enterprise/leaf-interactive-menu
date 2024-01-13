@@ -1,11 +1,11 @@
 export interface UserInfoDTO {
     id: number,
     language: string,
-    loyalties: ProductLoyaltyDTO[]
+    loyalties: LoyaltyDTO[]
 }
 
-export interface ProductLoyaltyDTO {
-    product_id: number,
+export interface LoyaltyDTO {
+    category_id: number,
     rest: number,
     free_given: boolean
 }
