@@ -6,6 +6,8 @@ import icPlus from "../../../assets/icons/ic_plus.svg"
 import {humanizePrice, pictureUrl} from "../../../utils/Extensions";
 import {useTranslation} from "react-i18next";
 import {SOM_TEXT} from "../../../i18n/Constants";
+import {LoyaltyDTO} from "../../../types/user/UserInfoDTO";
+import {CategoryDTO} from "../../../types/category/CategoryDTO";
 
 const useStyle = createUseStyles({
     index: {
@@ -63,9 +65,11 @@ const useStyle = createUseStyles({
 
 type ProductItemProps = {
     product: ProductDTO,
+    category:CategoryDTO
     onAdd: () => void,
+    loyalty?: LoyaltyDTO | undefined
 }
-const ProductItem: React.FC<ProductItemProps> = ({product, onAdd}) => {
+const ProductItem: React.FC<ProductItemProps> = ({product,category, onAdd, loyalty}) => {
 
     const classes = useStyle()
     const {t} = useTranslation()
