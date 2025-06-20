@@ -16,6 +16,7 @@ const useStyle = createUseStyles<string,{isActive:boolean}>({
     icon: {
         width: "20px",
         height: "20px",
+        objectFit:"cover"
     },
     name: {
         margin: 0

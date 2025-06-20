@@ -22,7 +22,8 @@ const useStyle = createUseStyles({
     },
     icon: {
         width: "90px",
-        height: "140px"
+        height: "140px",
+        objectFit:"cover"
     },
     body: {
         width: "100%",
