@@ -14,10 +14,10 @@ const resources={
 }
 
 i18next
-.use(initReactI18next)
-.init({
-    resources,
-    lng: "ru"
-})
+    .use(initReactI18next)
+    .init({
+        resources,
+        lng: " ru"
+    }).then(r =>{})
 
 export default i18next
