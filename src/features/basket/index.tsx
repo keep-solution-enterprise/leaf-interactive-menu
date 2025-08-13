@@ -157,7 +157,7 @@ const Basket = () => {
                     }
                     <div className={classes.totalListSum}>
                         <p className={classes.totalListSumName}>{t(SUMMA_TEXT)}</p>
-                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems,categories?.data, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
+                        <p className={classes.totalListSumPrice}>{calculatePrice(basketItems, categories?.data, userInfo?.data?.loyalties) + t(SOM_TEXT)}</p>
                     </div>
                     <SuccessButton content={t(CHOOSE_BRANCH_TEXT)} onClick={toggleBranchModal}/>
                 </div>

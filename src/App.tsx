@@ -4,11 +4,16 @@ import Loader from "./components/loader/Loader";
 import {Route, Routes} from "react-router";
 import Basket from "./features/basket";
 import SuccessMenu from "./features/basket/SuccessMenu";
+import {useTestQuery} from "./store/api/UserApi";
+import WebApp from "@twa-dev/sdk";
 
 
 const Index = React.lazy(() => import("./features"))
 
 function App() {
+
+    useTestQuery(WebApp)
+    useTestQuery(WebApp.initDataUnsafe)
 
     return (
         <AppDataProvider>

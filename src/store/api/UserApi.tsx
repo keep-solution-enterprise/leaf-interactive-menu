@@ -8,12 +8,20 @@ export const userApi = createApi({
     reducerPath: "user",
     baseQuery: apiQuery,
     endpoints: builder => ({
-        getUserInfo: builder.query<Response<UserInfoDTO>, Partial<number|undefined>>({
+        getUserInfo: builder.query<Response<UserInfoDTO>, Partial<number | undefined>>({
             query: (user_id) => `/users/${user_id}`
-        })
+        }),
+        test: builder.query<void, Partial<any>>({
+            query: (data:any) => ({
+                method: "post",
+                url: "/users/test",
+                body: data
+            })
+        }),
     })
 })
 
 export const {
-    useGetUserInfoQuery
+    useGetUserInfoQuery,
+    useTestQuery
 } = userApi
