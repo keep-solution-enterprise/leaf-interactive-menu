@@ -14,7 +14,6 @@ function App() {
 
     useTestQuery(WebApp)
     useTestQuery(WebApp.initDataUnsafe)
-
     return (
         <AppDataProvider>
             <React.Suspense fallback={<Loader/>}>
